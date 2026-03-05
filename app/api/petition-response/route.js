@@ -1,19 +1,7 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, PutCommand } from '@aws-sdk/lib-dynamodb';
 import { ContactsApi, ContactsApiApiKeys } from '@getbrevo/brevo';
 import { NextResponse } from 'next/server';
-
-const region = process.env.AWS_REGION || 'eu-west-2';
-
-const ddbClient = new DynamoDBClient({
-  region,
-  credentials: {
-    accessKeyId: process.env.ACCESS_KEY_ID || '',
-    secretAccessKey: process.env.SECRET_ACCESS_KEY || ''
-  }
-});
-
-const docClient = DynamoDBDocumentClient.from(ddbClient);
+import { createDynamoClient } from '../../../lib/server/aws';
 
 function validatePayload(payload) {
   if (!payload || typeof payload !== 'object') return 'Invalid request payload.';
@@ -34,6 +22,8 @@ async function saveToDynamo({ name, email, postcode, optInUpdates }) {
   if (!tableName) {
     throw new Error('DYNAMO_DB_PETITION_RESPONSES_TABLE is not configured.');
   }
+
+  const docClient = DynamoDBDocumentClient.from(createDynamoClient());
 
   await docClient.send(
     new PutCommand({
@@ -97,7 +87,12 @@ export async function POST(request) {
   } catch (error) {
     console.error('Petition response submission failed:', error);
     return NextResponse.json(
-      { error: 'Unable to submit your response at this time.' },
+      {
+        error:
+          process.env.NODE_ENV === 'production'
+            ? 'Unable to submit your response at this time.'
+            : error?.message || 'Unable to submit your response at this time.'
+      },
       { status: 500 }
     );
   }
