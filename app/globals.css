@@ -60,6 +60,21 @@ body {
   text-decoration: none;
 }
 
+.social-link {
+  margin-left: auto;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-grid;
+  place-items: center;
+  color: white;
+  text-decoration: none;
+}
+
+.social-link svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
 .menu-toggle {
   display: inline-grid;
   place-items: center;

@@ -44,6 +44,20 @@ export default function SiteShell({ children }) {
           <Link href="/" className="site-title">
             Support Weald Schooling
           </Link>
+          <a
+            className="social-link"
+            href="https://www.facebook.com/profile.php?id=61557074941190"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit Support Weald Schooling on Facebook"
+          >
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                d="M24 12a12 12 0 1 0-13.88 11.85v-8.39H7.08V12h3.04V9.36c0-3 1.79-4.67 4.53-4.67 1.31 0 2.68.24 2.68.24v2.95h-1.51c-1.49 0-1.95.93-1.95 1.87V12h3.32l-.53 3.46h-2.79v8.39A12 12 0 0 0 24 12Z"
+                fill="currentColor"
+              />
+            </svg>
+          </a>
         </div>
       </header>
 
